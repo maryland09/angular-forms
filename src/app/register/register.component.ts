@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import {NgForm} from "@angular/forms";
 
 @Component({
   selector: 'app-register',
@@ -7,9 +8,18 @@ import { Component, OnInit } from '@angular/core';
 })
 export class RegisterComponent implements OnInit {
 
-  constructor() { }
+  public namePattern = "^[a-zA-Zа-яА-ЯёЁ]+(\\s[a-zA-Zа-яА-ЯёЁ]+)+$"
+  public passwordPattern = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*#?&])[A-Za-z\\d@$!%*#?&]+$"
+
+  constructor() {
+  }
 
   ngOnInit(): void {
   }
+
+  sendForm(form: NgForm){
+    form.reset()
+  }
+
 
 }
