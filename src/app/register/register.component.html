@@ -1,28 +1,24 @@
 <mat-card>
 
-  <form #registerForm="ngForm">
+  <form
+    class="register"
+    #regform="ngForm"
+    (ngSubmit)="sendForm(regform)"
+    [ngFormOptions]="{updateOn: 'blur'}">
 
     <!--      Фамилия Имя-->
     <mat-form-field appearance="fill">
       <mat-label>Фамилия Имя</mat-label>
       <input matInput
              name="name"
-             ngModel
+             [(ngModel)]="myName"
              #name="ngModel"
              required
              pattern="{{namePattern}}"
       >
-      <mat-error *ngIf="name.hasError('pattern')">
-        Имя должно содержать не менее двух слов кириллическими или
-        латинскими буквами
-      </mat-error>
-
-      <mat-error *ngIf="name.hasError('required')">
-        Заполните поле
-      </mat-error>
-
+      <mat-error *ngIf="name.hasError('pattern')">Два и более русских слов </mat-error>
+      <mat-error *ngIf="name.hasError('required')">Заполните поле</mat-error>
     </mat-form-field>
-
 
 
     <!--      EMAIL-->
@@ -39,56 +35,37 @@
       <mat-error *ngIf="email.hasError('required')">Заполните поле</mat-error>
     </mat-form-field>
 
+    <!--    ПАРОЛЬ-->
+    <mat-form-field appearance="fill">
+      <mat-label>Пароль</mat-label>
+      <input matInput
+             name="password"
+             #password="ngModel"
+             ngModel
+             required
+             minlength="8"
+             pattern="{{passwordPattern}}"
+      >
+      <mat-error *ngIf="password.hasError('minlength')">Минимум 8 символов</mat-error>
+      <mat-error *ngIf="password.hasError('pattern')">Некорректынй пароль</mat-error>
+      <mat-error *ngIf="password.hasError('required')">Заполните поле</mat-error>
+    </mat-form-field>
 
+    <mat-form-field appearance="fill">
+      <mat-label>Подтверждение пароля</mat-label>
+      <input matInput
+             name="confirmation"
+             #confirmation="ngModel"
+             ngModel
+             required
+             ngValidateEqual="password"
+      >
+      <mat-error *ngIf="confirmation.hasError('required')">Заполните поле</mat-error>
+      <mat-error *ngIf="confirmation.hasError('notEqual')">Пароли не совпадают</mat-error>
+    </mat-form-field>
 
-
+  <button mat-flat-button color="primary" [disabled]="regform.form.invalid">Зарегистрироваться</button>
 
   </form>
 
-
-
-
-
-
-
-
-<!--  <ng-container-->
-<!--    ngModelGroup="passwordGroup"-->
-<!--    #passwordGroup="ngModelGroup"-->
-<!--    appPasswordMatch-->
-<!--  >-->
-<!--    {{passwordGroup.errors?.passwordMatch | json}}-->
-
-<!--    &lt;!&ndash;      ПАРОЛЬ&ndash;&gt;-->
-<!--    <mat-form-field appearance="fill">-->
-<!--      <mat-label>Пароль</mat-label>-->
-<!--      <input matInput name="pass"-->
-<!--             #password="ngModel"-->
-<!--             ngModel-->
-<!--             minlength="8"-->
-<!--             pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]+$"-->
-<!--      >-->
-<!--      <mat-error *ngIf="password.hasError('minlength')">Минимум 8 символов</mat-error>-->
-<!--      <mat-error *ngIf="password.hasError('pattern')">Некорректынй пароль</mat-error>-->
-
-<!--      &lt;!&ndash;          <mat-error *ngIf="1 == 1">Не совпадают</mat-error>&ndash;&gt;-->
-
-<!--    </mat-form-field>-->
-
-<!--    &lt;!&ndash;      ПОДТВЕРЖДЕНИЕ ПАРОЛЯ&ndash;&gt;-->
-<!--    <mat-form-field appearance="fill">-->
-<!--      <mat-label>Повторите пароль</mat-label>-->
-<!--      <input matInput name="confirmation"-->
-<!--             ngModel-->
-<!--             #confirmation="ngModel"-->
-<!--             required-->
-<!--      >-->
-<!--    </mat-form-field>-->
-<!--    <div *ngIf="!passwordGroup.errors?.passwordMatch && (confirmation.dirty || confirmation.touched)" class="error">-->
-<!--      Не совпадают-->
-<!--    </div>-->
-<!--    {{passwordGroup.errors?.passwordMatch}}-->
-<!--  </ng-container>-->
-
-  <button mat-flat-button color="primary">Зарегистрироваться</button>
 </mat-card>

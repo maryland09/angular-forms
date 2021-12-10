@@ -1,0 +1,17 @@
+.register{
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+// justify-content: space-around;
+  align-items: center;
+
+}
+
+mat-card {
+  width: 40%;
+}
+
+mat-form-field{
+  width: 80%;
+}
+
